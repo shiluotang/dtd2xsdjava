@@ -1,0 +1,39 @@
+<!-- MLP_TLREP -->
+<!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+<!ENTITY % extension.param ",ericsson_mlp320_tlrep">
+<!ELEMENT tlrep (req_id, lcs_ref?, trl_pos+, time_remaining? ,ericsson_mlp320_tlrep)>
+<!ATTLIST tlrep
+	ver CDATA #FIXED "3.2.0"
+>
+<!-- ERICSSON_TLREP -->
+<!ELEMENT ericsson_mlp320_tlrep (ericsson_ms_data+)>
+<!ELEMENT ericsson_ms_data (ericsson_msid, ericsson_time, ericsson_pd?)>
+<!ELEMENT ericsson_msid (#PCDATA)>
+<!ATTLIST ericsson_msid
+	type (MSISDN) "MSISDN"
+	enc (ASC) "ASC"
+	e-dtype NMTOKEN #FIXED "ui8"
+>
+<!ELEMENT ericsson_time (#PCDATA)>
+<!ATTLIST ericsson_time
+	utc_off CDATA #REQUIRED
+	e-dtype NMTOKEN #FIXED "string"
+>
+<!ELEMENT ericsson_pd (shape, (alt, alt_unc?)?, lev_conf?)>

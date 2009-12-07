@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <!--
+Push Access Protocol (PAP) v1.0 Document Type Definition.
+
+Copyright Wireless Application Protocol Forum Ltd., 1998-2001.
+                      All rights reserved.  
+
+PAP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE pap PUBLIC "-//WAPFORUM//DTD PAP 1.0//EN"
+             "http://www.wapforum.org/DTD/pap_1.0.dtd">
+   <pap>
+      ...
+   </pap>
+
+Terms and conditions of use are available from the Wireless 
+Application Protocol Forum Ltd. web site at
+http://www.wapforum.org/docs/copyright.htm.
+-->
+    <!-- ISO date and time -->
+    <!-- PPG Message State -->
+    <xsd:element name="pap">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="push-message"/>
+                <xsd:element ref="push-response"/>
+                <xsd:element ref="cancel-message"/>
+                <xsd:element ref="cancel-response"/>
+                <xsd:element ref="resultnotification-message"/>
+                <xsd:element ref="resultnotification-response"/>
+                <xsd:element ref="statusquery-message"/>
+                <xsd:element ref="statusquery-response"/>
+                <xsd:element ref="ccq-message"/>
+                <xsd:element ref="ccq-response"/>
+                <xsd:element ref="badmessage-response"/>
+            </xsd:choice>
+            <xsd:attribute name="product-name" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ========================================= -->
+    <!-- Declaration of push submission message    -->
+    <!-- ========================================= -->
+    <!--this message goes from the Push Initiator to the push proxy gateway-->
+    <xsd:element name="push-message">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="address"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="quality-of-service"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+            <xsd:attribute name="deliver-before-timestamp"
+                type="xsd:dateTime" use="optional"/>
+            <xsd:attribute name="deliver-after-timestamp"
+                type="xsd:dateTime" use="optional"/>
+            <xsd:attribute name="source-reference" type="xsd:string" use="optional"/>
+            <xsd:attribute name="ppg-notify-requested-to"
+                type="xsd:string" use="optional"/>
+            <xsd:attribute default="false"
+                name="progress-notes-requested"
+                type="push-messageProgress-notes-requested" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="push-messageProgress-notes-requested">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="true"/>
+            <xsd:enumeration value="false"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="address">
+        <xsd:complexType>
+            <xsd:attribute name="address-value" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="quality-of-service">
+        <xsd:complexType>
+            <xsd:attribute default="medium" name="priority"
+                type="quality-of-servicePriority" use="optional"/>
+            <xsd:attribute default="notspecified" name="delivery-method"
+                type="quality-of-serviceDelivery-method" use="optional"/>
+            <xsd:attribute name="network" type="xsd:string" use="optional"/>
+            <xsd:attribute default="false" name="network-required"
+                type="quality-of-serviceNetwork-required" use="optional"/>
+            <xsd:attribute name="bearer" type="xsd:string" use="optional"/>
+            <xsd:attribute default="false" name="bearer-required"
+                type="quality-of-serviceBearer-required" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="quality-of-servicePriority">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="high"/>
+            <xsd:enumeration value="medium"/>
+            <xsd:enumeration value="low"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="quality-of-serviceDelivery-method">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="confirmed"/>
+            <xsd:enumeration value="preferconfirmed"/>
+            <xsd:enumeration value="unconfirmed"/>
+            <xsd:enumeration value="notspecified"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="quality-of-serviceNetwork-required">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="true"/>
+            <xsd:enumeration value="false"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="quality-of-serviceBearer-required">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="true"/>
+            <xsd:enumeration value="false"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="push-response">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="progress-note"/>
+                <xsd:element ref="response-result"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+            <xsd:attribute name="sender-address" type="xsd:string" use="optional"/>
+            <xsd:attribute name="sender-name" type="xsd:string" use="optional"/>
+            <xsd:attribute name="reply-time" type="xsd:dateTime" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="progress-note">
+        <xsd:complexType>
+            <xsd:attribute name="stage" type="xsd:string" use="required"/>
+            <xsd:attribute name="note" type="xsd:string" use="optional"/>
+            <xsd:attribute name="time" type="xsd:dateTime" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="response-result">
+        <xsd:complexType>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ========================================= -->
+    <!-- Declaration of cancel operation           -->
+    <!-- ========================================= -->
+    <!--this message goes from the Push Initiator to the push proxy gateway-->
+    <xsd:element name="cancel-message">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="cancel-response">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="cancel-result"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cancel-result">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ========================================= -->
+    <!-- Declaration of notify result operation    -->
+    <!-- ========================================= -->
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="resultnotification-message">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="address"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="quality-of-service"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+            <xsd:attribute name="sender-address" type="xsd:string" use="optional"/>
+            <xsd:attribute name="sender-name" type="xsd:string" use="optional"/>
+            <xsd:attribute name="received-time" type="xsd:dateTime" use="optional"/>
+            <xsd:attribute name="event-time" type="xsd:dateTime" use="optional"/>
+            <xsd:attribute name="message-state"
+                type="resultnotification-messageMessage-state" use="required"/>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="resultnotification-messageMessage-state">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="rejected"/>
+            <xsd:enumeration value="pending"/>
+            <xsd:enumeration value="delivered"/>
+            <xsd:enumeration value="undeliverable"/>
+            <xsd:enumeration value="expired"/>
+            <xsd:enumeration value="aborted"/>
+            <xsd:enumeration value="timeout"/>
+            <xsd:enumeration value="cancelled"/>
+            <xsd:enumeration value="unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!--this message goes from the Push Initiator to the push proxy gateway-->
+    <xsd:element name="resultnotification-response">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ========================================= -->
+    <!-- Declaration of statusquery operation      -->
+    <!-- ========================================= -->
+    <!--this message goes from the Push Initiator to the push proxy gateway-->
+    <xsd:element name="statusquery-message">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="statusquery-response">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="statusquery-result"/>
+            </xsd:sequence>
+            <xsd:attribute name="push-id" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="statusquery-result">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="address"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="quality-of-service"/>
+            </xsd:sequence>
+            <xsd:attribute name="event-time" type="xsd:dateTime" use="optional"/>
+            <xsd:attribute name="message-state"
+                type="statusquery-resultMessage-state" use="required"/>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="statusquery-resultMessage-state">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="rejected"/>
+            <xsd:enumeration value="pending"/>
+            <xsd:enumeration value="delivered"/>
+            <xsd:enumeration value="undeliverable"/>
+            <xsd:enumeration value="expired"/>
+            <xsd:enumeration value="aborted"/>
+            <xsd:enumeration value="timeout"/>
+            <xsd:enumeration value="cancelled"/>
+            <xsd:enumeration value="unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- ============================================== -->
+    <!-- Declaration of capabilities query operation    -->
+    <!-- ============================================== -->
+    <!--this message goes from the Push Initiator to the push proxy gateway-->
+    <xsd:element name="ccq-message">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="query-id" type="xsd:string" use="optional"/>
+            <xsd:attribute name="app-id" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="ccq-response">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="address"/>
+            </xsd:sequence>
+            <xsd:attribute name="query-id" type="xsd:string" use="optional"/>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ============================================== -->
+    <!-- Declaration of bad message response message    -->
+    <!-- ============================================== -->
+    <!--this message goes from the push proxy gateway to the Push Initiator-->
+    <xsd:element name="badmessage-response">
+        <xsd:complexType>
+            <xsd:attribute name="code" type="xsd:string" use="required"/>
+            <xsd:attribute name="desc" type="xsd:string" use="optional"/>
+            <xsd:attribute name="bad-message-fragment" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!--
+Copyright Wireless Application Protocol Forum Ltd., 1998-2001.
+                      All rights reserved.  
+-->
+</xsd:schema>

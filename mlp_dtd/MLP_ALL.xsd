@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <!-- MLP_ALL -->
+    <!-- MLP_SVC_INIT -->
+    <!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ...
+   </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="svc_init">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="hdr"/>
+                <xsd:choice>
+                    <xsd:element ref="slir"/>
+                    <xsd:element ref="eme_lir"/>
+                    <xsd:element ref="tlrr"/>
+                    <xsd:element ref="tlrsr"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_CTXT -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_xxx PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_xxx>
+      ... 
+  </svc_xxx>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="client">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pwd"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="serviceid"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="requestmode"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="sessionid" type="xsd:string"/>
+    <xsd:element name="id" type="xsd:string"/>
+    <xsd:element name="requestor">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="serviceid"/>
+            </xsd:sequence>
+            <xsd:attribute default="MSISDN" name="type"
+                type="requestorType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="requestorType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MSISDN"/>
+            <xsd:enumeration value="NAME"/>
+            <xsd:enumeration value="E-MAIL"/>
+            <xsd:enumeration value="URL"/>
+            <xsd:enumeration value="SIPURL"/>
+            <xsd:enumeration value="IMS"/>
+            <xsd:enumeration value="MDN"/>
+            <xsd:enumeration value="ASID"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="pwd" type="xsd:string"/>
+    <xsd:element name="serviceid" type="xsd:string"/>
+    <xsd:element name="requestmode">
+        <xsd:complexType>
+            <xsd:attribute default="PASSIVE" name="type"
+                type="requestmodeType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="requestmodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ACTIVE"/>
+            <xsd:enumeration value="PASSIVE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="subclient">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pwd"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="serviceid"/>
+            </xsd:sequence>
+            <xsd:attribute default="NO" name="last_client"
+                type="subclientLast_client" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="subclientLast_client">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="YES"/>
+            <xsd:enumeration value="NO"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- MLP_ID -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_xxx PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_xxx>
+      ... 
+  </svc_xxx>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="msid">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="MSISDN" name="type" type="msidType" use="optional"/>
+            <xsd:attribute default="ASC" name="enc" type="msidEnc" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="msidType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MSISDN"/>
+            <xsd:enumeration value="IMSI"/>
+            <xsd:enumeration value="IMEI"/>
+            <xsd:enumeration value="MIN"/>
+            <xsd:enumeration value="MDN"/>
+            <xsd:enumeration value="EME_MSID"/>
+            <xsd:enumeration value="ASID"/>
+            <xsd:enumeration value="OPE_ID"/>
+            <xsd:enumeration value="IPV4"/>
+            <xsd:enumeration value="IPV6"/>
+            <xsd:enumeration value="SESSID"/>
+            <xsd:enumeration value="SIP_URI"/>
+            <xsd:enumeration value="TEL_URL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="msidEnc">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ASC"/>
+            <xsd:enumeration value="CRP"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="msid_range">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="start_msid"/>
+                <xsd:element ref="stop_msid"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="msids">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice maxOccurs="unbounded" minOccurs="1">
+                    <xsd:sequence>
+                        <xsd:element ref="msid"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="codeword"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="session"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="trans_id"/>
+                    </xsd:sequence>
+                    <xsd:sequence>
+                        <xsd:element ref="msid_range"/>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" ref="codeword"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="codeword" type="xsd:string"/>
+    <xsd:element name="esrd">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="NA" name="type" type="esrdType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="esrdType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="esrk">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="NA" name="type" type="esrkType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="esrkType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="session">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="type" type="sessionType" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="sessionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="APN"/>
+            <xsd:enumeration value="DIAL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="start_msid">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msid"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="stop_msid">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msid"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="trans_id" type="xsd:string"/>
+    <!-- MLP_FUNC -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="eme_event">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="eme_pos"/>
+            </xsd:sequence>
+            <xsd:attribute name="eme_trigger"
+                type="eme_eventEme_trigger" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="eme_eventEme_trigger">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EME_ORG"/>
+            <xsd:enumeration value="EME_REL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="tlrr_event">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="ms_action"/>
+                <xsd:element ref="change_area"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ms_action">
+        <xsd:complexType>
+            <xsd:attribute name="type" type="ms_actionType" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="ms_actionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MS_AVAIL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="change_area">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="target_area"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="no_of_reports"/>
+            </xsd:sequence>
+            <xsd:attribute name="type" type="change_areaType" use="required"/>
+            <xsd:attribute name="loc_estimates"
+                type="change_areaLoc_estimates" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="change_areaType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MS_ENTERING"/>
+            <xsd:enumeration value="MS_LEAVING"/>
+            <xsd:enumeration value="MS_WITHIN_AREA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="change_areaLoc_estimates">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="TRUE"/>
+            <xsd:enumeration value="FALSE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="target_area">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="shape"/>
+                <xsd:element ref="cc"/>
+                <xsd:element ref="plmn"/>
+                <xsd:element ref="name_area"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="no_of_reports" type="xsd:string"/>
+    <xsd:element name="name_area" type="xsd:string"/>
+    <xsd:element name="plmn">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="mcc"/>
+                <xsd:element ref="mnc"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="interval" type="xsd:string"/>
+    <xsd:element name="loc_type">
+        <xsd:complexType>
+            <xsd:attribute default="CURRENT" name="type"
+                type="loc_typeType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="loc_typeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CURRENT"/>
+            <xsd:enumeration value="LAST"/>
+            <xsd:enumeration value="CURRENT_OR_LAST"/>
+            <xsd:enumeration value="LAST_OR_CURRENT"/>
+            <xsd:enumeration value="INITIAL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="prio">
+        <xsd:complexType>
+            <xsd:attribute default="NORMAL" name="type" type="prioType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="prioType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NORMAL"/>
+            <xsd:enumeration value="HIGH"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="pushaddr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="url"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pwd"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="req_id" type="xsd:string"/>
+    <xsd:element name="start_time">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="0000" name="utc_off"
+                type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="stop_time">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="0000" name="utc_off"
+                type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="duration" type="xsd:string"/>
+    <xsd:element name="url" type="xsd:string"/>
+    <xsd:element name="time_remaining" type="xsd:string"/>
+    <xsd:element name="lcs_ref" type="xsd:string"/>
+    <!-- MLP_QOP -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="eqop">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="resp_req"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="resp_timer"/>
+                <xsd:choice maxOccurs="1" minOccurs="0">
+                    <xsd:element ref="ll_acc"/>
+                    <xsd:element ref="hor_acc"/>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="alt_acc"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="max_loc_age"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="qop">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice maxOccurs="1" minOccurs="0">
+                    <xsd:element ref="ll_acc"/>
+                    <xsd:element ref="hor_acc"/>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="alt_acc"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ll_acc">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="qos_class" type="ll_accQos_class" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="ll_accQos_class">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ASSURED"/>
+            <xsd:enumeration value="BEST_EFFORT"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="hor_acc">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="qos_class" type="hor_accQos_class" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="hor_accQos_class">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ASSURED"/>
+            <xsd:enumeration value="BEST_EFFORT"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="alt_acc">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="qos_class" type="alt_accQos_class" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="alt_accQos_class">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ASSURED"/>
+            <xsd:enumeration value="BEST_EFFORT"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="max_loc_age" type="xsd:string"/>
+    <xsd:element name="resp_req">
+        <xsd:complexType>
+            <xsd:attribute default="DELAY_TOL" name="type"
+                type="resp_reqType" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="resp_reqType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="NO_DELAY"/>
+            <xsd:enumeration value="LOW_DELAY"/>
+            <xsd:enumeration value="DELAY_TOL"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="resp_timer" type="xsd:string"/>
+    <!-- MLP_LOC -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_xxx PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_xxx>
+      ... 
+  </svc_xxx>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="pos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msid"/>
+                <xsd:choice>
+                    <xsd:element ref="pd"/>
+                    <xsd:element ref="poserr"/>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="gsm_net_param"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="trans_id"/>
+            </xsd:sequence>
+            <xsd:attribute name="pos_method" type="posPos_method" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="posPos_method">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CELL"/>
+            <xsd:enumeration value="OTDOA"/>
+            <xsd:enumeration value="GPS"/>
+            <xsd:enumeration value="A-GPS"/>
+            <xsd:enumeration value="E-OTD"/>
+            <xsd:enumeration value="U-TDOA"/>
+            <xsd:enumeration value="AFLT"/>
+            <xsd:enumeration value="EFLT"/>
+            <xsd:enumeration value="UNKNOWN"/>
+            <xsd:enumeration value="OTHER"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="eme_pos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msid"/>
+                <xsd:choice>
+                    <xsd:element ref="pd"/>
+                    <xsd:element ref="poserr"/>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="esrd"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="esrk"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="trans_id"/>
+            </xsd:sequence>
+            <xsd:attribute name="pos_method" type="eme_posPos_method" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="eme_posPos_method">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CELL"/>
+            <xsd:enumeration value="OTDOA"/>
+            <xsd:enumeration value="GPS"/>
+            <xsd:enumeration value="A-GPS"/>
+            <xsd:enumeration value="E-OTD"/>
+            <xsd:enumeration value="U-TDOA"/>
+            <xsd:enumeration value="AFLT"/>
+            <xsd:enumeration value="EFLT"/>
+            <xsd:enumeration value="UNKNOWN"/>
+            <xsd:enumeration value="OTHER"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="trl_pos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msid"/>
+                <xsd:choice>
+                    <xsd:element ref="pd"/>
+                    <xsd:element ref="poserr"/>
+                    <xsd:element ref="time"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="trl_trigger" type="trl_posTrl_trigger" use="required"/>
+            <xsd:attribute name="pos_method" type="trl_posPos_method" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="trl_posTrl_trigger">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PERIODIC"/>
+            <xsd:enumeration value="MS_AVAIL"/>
+            <xsd:enumeration value="CHANGE_AREA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="trl_posPos_method">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CELL"/>
+            <xsd:enumeration value="OTDOA"/>
+            <xsd:enumeration value="GPS"/>
+            <xsd:enumeration value="A-GPS"/>
+            <xsd:enumeration value="E-OTD"/>
+            <xsd:enumeration value="U-TDOA"/>
+            <xsd:enumeration value="AFLT"/>
+            <xsd:enumeration value="EFLT"/>
+            <xsd:enumeration value="UNKNOWN"/>
+            <xsd:enumeration value="OTHER"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="pd">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="time"/>
+                <xsd:element ref="shape"/>
+                <xsd:sequence maxOccurs="1" minOccurs="0">
+                    <xsd:element ref="alt"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="alt_unc"/>
+                </xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="speed"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="direction"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="lev_conf"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="qos_not_met"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="poserr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="result"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                <xsd:element ref="time"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="time">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="0000" name="utc_off"
+                type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="alt" type="xsd:string"/>
+    <xsd:element name="alt_unc" type="xsd:string"/>
+    <xsd:element name="qos_not_met"/>
+    <xsd:element name="direction" type="xsd:string"/>
+    <xsd:element name="speed" type="xsd:string"/>
+    <xsd:element name="lev_conf" type="xsd:string"/>
+    <xsd:element name="geo_info">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="CoordinateReferenceSystem"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CoordinateReferenceSystem">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="Identifier"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Identifier">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="code"/>
+                <xsd:element ref="codeSpace"/>
+                <xsd:element ref="edition"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="code" type="xsd:string"/>
+    <xsd:element name="codeSpace" type="xsd:string"/>
+    <xsd:element name="edition" type="xsd:string"/>
+    <xsd:element name="service_coverage">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:sequence maxOccurs="unbounded" minOccurs="1">
+                    <xsd:element ref="cc"/>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" ref="ndc"/>
+                </xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_RES -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="add_info" type="xsd:string"/>
+    <xsd:element name="result">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="resid" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SHAPE -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ... 
+  </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="shape">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="Point"/>
+                <xsd:element ref="LineString"/>
+                <xsd:element ref="Polygon"/>
+                <xsd:element ref="Box"/>
+                <xsd:element ref="CircularArea"/>
+                <xsd:element ref="CircularArcArea"/>
+                <xsd:element ref="EllipticalArea"/>
+                <xsd:element ref="MultiLineString"/>
+                <xsd:element ref="MultiPoint"/>
+                <xsd:element ref="MultiPolygon"/>
+                <xsd:element ref="LinearRing"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="distanceUnit" type="xsd:string"/>
+    <xsd:element name="angularUnit" type="xsd:string"/>
+    <xsd:element name="angle" type="xsd:string"/>
+    <xsd:element name="coord">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="X"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="Y"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="Z"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="X" type="xsd:string"/>
+    <xsd:element name="Y" type="xsd:string"/>
+    <xsd:element name="Z" type="xsd:string"/>
+    <xsd:element name="Point">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="coord"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="LineString">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="2" ref="coord"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Box">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="2" minOccurs="2" ref="coord"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="LinearRing">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="3" ref="coord"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Polygon">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="outerBoundaryIs"/>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="innerBoundaryIs"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="outerBoundaryIs">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="LinearRing"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="innerBoundaryIs">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="LinearRing"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CircularArcArea">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="coord"/>
+                <xsd:element ref="inRadius"/>
+                <xsd:element ref="outRadius"/>
+                <xsd:element ref="startAngle"/>
+                <xsd:element ref="stopAngle"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="angularUnit"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="distanceUnit"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CircularArea">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="coord"/>
+                <xsd:element ref="radius"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="distanceUnit"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="EllipticalArea">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="coord"/>
+                <xsd:element ref="angle"/>
+                <xsd:element ref="semiMajor"/>
+                <xsd:element ref="semiMinor"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="angularUnit"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="distanceUnit"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="inRadius" type="xsd:string"/>
+    <xsd:element name="outRadius" type="xsd:string"/>
+    <xsd:element name="radius" type="xsd:string"/>
+    <xsd:element name="semiMajor" type="xsd:string"/>
+    <xsd:element name="semiMinor" type="xsd:string"/>
+    <xsd:element name="startAngle" type="xsd:string"/>
+    <xsd:element name="stopAngle" type="xsd:string"/>
+    <xsd:element name="MultiLineString">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="LineString"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="MultiPoint">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="Point"/>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="MultiPolygon">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice maxOccurs="unbounded" minOccurs="1">
+                    <xsd:element ref="Polygon"/>
+                    <xsd:element ref="Box"/>
+                    <xsd:element ref="CircularArea"/>
+                    <xsd:element ref="CircularArcArea"/>
+                    <xsd:element ref="EllipticalArea"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="gid" type="xsd:ID" use="optional"/>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_GSM_NET -->
+    <!--
+MLP V3.1 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_xxx PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_xxx>
+      ...
+   </svc_xxx>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="gsm_net_param">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="cgi"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="neid"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="nmr"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ta"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="lmsi"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="imsi"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cgi">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="mcc"/>
+                <xsd:element ref="mnc"/>
+                <xsd:element ref="lac"/>
+                <xsd:element ref="cellid"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!--<!ELEMENT	neid	(vmscid | vlrid | (vmscid, vlrid))>-->
+    <xsd:element name="neid">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="vlrid"/>
+                <xsd:sequence>
+                    <xsd:element ref="vmscid"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="vlrid"/>
+                </xsd:sequence>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="vmscid">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="cc"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ndc"/>
+                <xsd:element ref="vmscno"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="vlrid">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="cc"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ndc"/>
+                <xsd:element ref="vlrno"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="nmr" type="xsd:string"/>
+    <xsd:element name="mcc" type="xsd:string"/>
+    <xsd:element name="mnc" type="xsd:string"/>
+    <xsd:element name="ndc" type="xsd:string"/>
+    <xsd:element name="cc" type="xsd:string"/>
+    <xsd:element name="vmscno" type="xsd:string"/>
+    <xsd:element name="vlrno" type="xsd:string"/>
+    <xsd:element name="lac" type="xsd:string"/>
+    <xsd:element name="cellid" type="xsd:string"/>
+    <xsd:element name="ta" type="xsd:string"/>
+    <xsd:element name="lmsi" type="xsd:string"/>
+    <xsd:element name="imsi" type="xsd:string"/>
+    <!-- MLP_HDR -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_xxx PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_xxx>
+      ...
+   </svc_xxx>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <!-- <!ELEMENT hdr ((client | sessionid | (client, sessionid)), subclient*, requestor?)> -->
+    <xsd:element name="hdr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element ref="sessionid"/>
+                    <xsd:sequence>
+                        <xsd:element ref="client"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="sessionid"/>
+                    </xsd:sequence>
+                </xsd:choice>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="subclient"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="requestor"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SLIR -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="slir">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element ref="msids"/>
+                    <xsd:sequence maxOccurs="unbounded" minOccurs="1">
+                        <xsd:element ref="msid"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="codeword"/>
+                        <xsd:element ref="gsm_net_param"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="trans_id"/>
+                    </xsd:sequence>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="eqop"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="geo_info"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="loc_type"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="prio"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pushaddr"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="service_coverage"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+            <xsd:attribute default="SYNC" name="res_type"
+                type="slirRes_type" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="slirRes_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SYNC"/>
+            <xsd:enumeration value="ASYNC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- MLP_EME_LIR -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="eme_lir">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element ref="msids"/>
+                    <xsd:sequence maxOccurs="unbounded" minOccurs="1">
+                        <xsd:element ref="msid"/>
+                        <xsd:element ref="gsm_net_param"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="trans_id"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="esrd"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="esrk"/>
+                    </xsd:sequence>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="eqop"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="geo_info"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="loc_type"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pushaddr"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+            <xsd:attribute default="SYNC" name="res_type"
+                type="eme_lirRes_type" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="eme_lirRes_type">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SYNC"/>
+            <xsd:enumeration value="ASYNC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- MLP_TLRR -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="tlrr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="msids"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="interval"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="start_time"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="stop_time"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="duration"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="tlrr_event"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="qop"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="geo_info"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="pushaddr"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="loc_type"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="prio"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="service_coverage"/>
+                <xsd:element ref="ericsson_mlp320_tlrr"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ERICSSON_TLRR -->
+    <xsd:element name="ericsson_mlp320_tlrr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ericsson_tlrr_event"/>
+                <xsd:choice>
+                    <xsd:element ref="ericsson_shape"/>
+                    <xsd:element ref="ericsson_distance"/>
+                </xsd:choice>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ericsson_recurrence_time"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ericsson_speed"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_tlrr_event">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ericsson_ms_action"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_ms_action">
+        <xsd:complexType>
+            <xsd:attribute name="type" type="ericsson_ms_actionType" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="ericsson_ms_actionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MS_ENTER"/>
+            <xsd:enumeration value="MS_TO_MS"/>
+            <xsd:enumeration value="MS_LEAVE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="ericsson_shape">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element ref="ericsson_circular_area"/>
+                <xsd:element ref="ericsson_polygonal_area"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_circular_area">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ericsson_coord"/>
+                <xsd:element ref="ericsson_radius"/>
+            </xsd:sequence>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_polygonal_area">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="3" ref="ericsson_coord"/>
+            </xsd:sequence>
+            <xsd:attribute name="srsName" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_coord">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ericsson_X"/>
+                <xsd:element ref="ericsson_Y"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_radius" type="xsd:string"/>
+    <xsd:element name="ericsson_X" type="xsd:string"/>
+    <xsd:element name="ericsson_Y" type="xsd:string"/>
+    <xsd:element name="ericsson_distance" type="xsd:string"/>
+    <xsd:element name="ericsson_recurrence_time" type="xsd:string"/>
+    <xsd:element name="ericsson_speed" type="xsd:string"/>
+    <!-- MLP_TLRSR -->
+    <!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ...
+   </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="tlrsr">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="req_id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="lcs_ref"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SVC_RESULT -->
+    <!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="svc_result">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="hdr"/>
+                <xsd:choice>
+                    <xsd:element ref="slia"/>
+                    <xsd:element ref="slirep"/>
+                    <xsd:element ref="slrep"/>
+                    <xsd:element ref="slra"/>
+                    <xsd:element ref="eme_lia"/>
+                    <xsd:element ref="emerep"/>
+                    <xsd:element ref="eme_lirep"/>
+                    <xsd:element ref="tlra"/>
+                    <xsd:element ref="tlrep"/>
+                    <xsd:element ref="tlrsa"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SLRA -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ... 
+  </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="slra">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element ref="result"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                </xsd:sequence>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SLIA -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="slia">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element maxOccurs="unbounded" minOccurs="1" ref="pos"/>
+                    <xsd:element ref="req_id"/>
+                    <xsd:sequence>
+                        <xsd:element ref="result"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.0.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SLIREP -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="slirep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="req_id"/>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.0.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_SLREP -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="slrep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.0.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_EME_LIA -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ... 
+  </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="eme_lia">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element maxOccurs="unbounded" minOccurs="1" ref="eme_pos"/>
+                    <xsd:element ref="req_id"/>
+                    <xsd:sequence>
+                        <xsd:element ref="result"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_EME_LIREP -->
+    <!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ... 
+  </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="eme_lirep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="req_id"/>
+                <xsd:choice>
+                    <xsd:element maxOccurs="unbounded" minOccurs="1" ref="eme_pos"/>
+                    <xsd:sequence>
+                        <xsd:element ref="result"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_EMEREP -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="emerep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="eme_event"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.0.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_TLRA -->
+    <!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="tlra">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:sequence>
+                        <xsd:element ref="req_id"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="lcs_ref"/>
+                    </xsd:sequence>
+                    <xsd:sequence>
+                        <xsd:element ref="result"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_TLREP -->
+    <!--
+MLP V3.2 Document Type Definition
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+    <xsd:element name="tlrep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="req_id"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="lcs_ref"/>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="trl_pos"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="time_remaining"/>
+                <xsd:element ref="ericsson_mlp320_tlrep"/>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.2.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- ERICSSON_TLREP -->
+    <xsd:element name="ericsson_mlp320_tlrep">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="ericsson_ms_data"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_ms_data">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ericsson_msid"/>
+                <xsd:element ref="ericsson_time"/>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="ericsson_pd"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_msid">
+        <xsd:complexType mixed="true">
+            <xsd:attribute default="MSISDN" name="type"
+                type="ericsson_msidType" use="optional"/>
+            <xsd:attribute default="ASC" name="enc"
+                type="ericsson_msidEnc" use="optional"/>
+            <xsd:attribute fixed="ui8" name="e-dtype" type="xsd:NMTOKEN"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="ericsson_msidType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MSISDN"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ericsson_msidEnc">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="ASC"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="ericsson_time">
+        <xsd:complexType mixed="true">
+            <xsd:attribute name="utc_off" type="xsd:string" use="required"/>
+            <xsd:attribute fixed="string" name="e-dtype" type="xsd:NMTOKEN"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ericsson_pd">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="shape"/>
+                <xsd:sequence maxOccurs="1" minOccurs="0">
+                    <xsd:element ref="alt"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="alt_unc"/>
+                </xsd:sequence>
+                <xsd:element maxOccurs="1" minOccurs="0" ref="lev_conf"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MLP_TLRSA -->
+    <!--
+MLP V3.0 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2002
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_result PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_result>
+      ...
+   </svc_result>
+
+Terms and conditions of use are available from the 
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/useterms.html
+-->
+    <xsd:element name="tlrsa">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice>
+                    <xsd:element ref="req_id"/>
+                    <xsd:sequence>
+                        <xsd:element ref="result"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" ref="add_info"/>
+                    </xsd:sequence>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute fixed="3.0.0" name="ver" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

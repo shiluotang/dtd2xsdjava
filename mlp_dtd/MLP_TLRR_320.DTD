@@ -1,0 +1,48 @@
+<!-- MLP_TLRR -->
+<!--
+MLP V3.2 Document Type Definition
+
+Copyright Open Mobile Alliance Ltd., 2005
+          All rights reserved
+
+MLP is an XML language. Typical usage:
+   <?xml version="1.0"?>
+   <!DOCTYPE svc_init PUBLIC "-//OMA//DTD {abbrev x.y}//EN"
+             "http://www.openmobilealliance.org/DTD/{filename}"
+             [<?oma-{ref}-ver supported-versions="{versions}"?>]>
+   <svc_init>
+      ... 
+  </svc_init>
+
+Terms and conditions of use are available from the
+Open Mobile Alliance Ltd. web site at
+http://www.openmobilealliance.org/
+-->
+<!ENTITY % extension.param ",ericsson_mlp320_tlrr">
+<!ELEMENT tlrr (msids, interval?, start_time?, stop_time?, duration?, tlrr_event?, qop?, geo_info?, pushaddr?, loc_type?, prio?, service_coverage? ,ericsson_mlp320_tlrr)>
+<!ATTLIST tlrr
+	ver CDATA #FIXED "3.2.0"
+>
+<!-- ERICSSON_TLRR -->
+<!ELEMENT ericsson_mlp320_tlrr (ericsson_tlrr_event, (ericsson_shape | ericsson_distance), ericsson_recurrence_time?, ericsson_speed?)>
+<!ELEMENT ericsson_tlrr_event (ericsson_ms_action)>
+<!ELEMENT ericsson_ms_action EMPTY>
+<!ATTLIST ericsson_ms_action
+	type (MS_ENTER | MS_TO_MS | MS_LEAVE) #REQUIRED
+>
+<!ELEMENT ericsson_shape (ericsson_circular_area | ericsson_polygonal_area)>
+<!ELEMENT ericsson_circular_area (ericsson_coord, ericsson_radius)>
+<!ATTLIST ericsson_circular_area
+	srsName CDATA #IMPLIED
+>
+<!ELEMENT ericsson_polygonal_area (ericsson_coord, ericsson_coord, ericsson_coord+)>
+<!ATTLIST ericsson_polygonal_area
+	srsName CDATA #IMPLIED
+>
+<!ELEMENT ericsson_coord (ericsson_X, ericsson_Y)>
+<!ELEMENT ericsson_radius (#PCDATA)>
+<!ELEMENT ericsson_X (#PCDATA)>
+<!ELEMENT ericsson_Y (#PCDATA)>
+<!ELEMENT ericsson_distance (#PCDATA)>
+<!ELEMENT ericsson_recurrence_time (#PCDATA)>
+<!ELEMENT ericsson_speed (#PCDATA)>
